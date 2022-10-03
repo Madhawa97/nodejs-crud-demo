@@ -49,6 +49,18 @@ app.get("/api/customers", (req, res) => {
     res.send(customers);
 });
 
+//--get details of specific customer by id
+
+app.get("/api/customer/:id", (req, res) => {
+    const filterCustomer = customers.find((c) => c.id == parseInt(req.params.id))
+    if (filterCustomer) {
+        res.status(200).send(filterCustomer);
+    } else {
+        res.status(404).send('<h2>Customer not found.</h2>')
+    }
+});
+
+
 
 const port = process.env.PORT || 3000;
 
