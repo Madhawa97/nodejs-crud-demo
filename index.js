@@ -131,6 +131,20 @@ app.put("/api/update_customer", (req, res) => {
 
 });
 
+//-----------------------delete method 
+app.delete("/api/customer/:id", (req, res) => {
+    const customer = customers.find((c) => c.id === parseInt(req.params.id));
+
+    if (!customer) {
+        res.status(404).send('<h2>Customer is not found for id ' + req.params.id + '</h2>');
+    }
+
+    const index = customers.indexOf(customer);
+    customers.splice(index, 1);
+
+    res.send("Customer " + customer.name + " is removed!");
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, ()=> console.log("Listening on port :"+port+"...."));
