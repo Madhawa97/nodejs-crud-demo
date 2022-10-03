@@ -7,37 +7,44 @@ let customers = [
     {
         "id":1,
         "name": "Saman",
-        "age": 15
+        "age": 15,
+        "phone": 0771234567
     },
     {
         "id": 2,
         "name": "Kasun",
-        "age": 15
+        "age": 15,
+        "phone": 0771234567
     },
     {
         "id": 3,
         "name": "Kelum",
-        "age": 15
+        "age": 15,
+        "phone": 0771234567
     },
     {
         "id": 4,
         "name": "Nuwan",
-        "age": 40
+        "age": 40,
+        "phone": 0771234567
     },
     {
         "id": 5,
         "name": "Nimal",
-        "age": 30
+        "age": 30,
+        "phone": 0771234567
     },
     {
         "id": 6,
         "name": "Kamal",
-        "age": 60
+        "age": 60,
+        "phone": 0771234567
     },
     {
         "id": 7,
         "name": "Amal",
-        "age": 10
+        "age": 10,
+        "phone": 0771234567
     }
 ];
 
@@ -68,6 +75,38 @@ app.get("/api/eligible_customers/:age", (req, res) => {
     res.send(eligibleCustomers);
 });
 
+//-----post method--------------------------
+app.post("/api/add_customers/", (req, res) => {
+    const { error } = validateCustomer(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
+        return;
+    }
+
+    const newCustomer = {
+        id: customers.length + 1,
+        name: req.body.name,
+        phone: req.body.phone,
+        age: req.body.age,
+    }
+
+    customers.push(newCustomer);
+
+    res.send(newCustomer);
+});
+
+function validateCustomer(customer) {
+    const schema = Joi.object({ 
+        name: Joi.string().min(3).required(), 
+        phone: Joi.number().min(3).required(), 
+        age: Joi.number().min(1).required()
+    });
+
+    const validation = schema.validate(customer);
+
+    return validation;
+}
 
 
 const port = process.env.PORT || 3000;
