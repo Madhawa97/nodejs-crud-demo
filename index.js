@@ -61,6 +61,14 @@ app.get("/api/customer/:id", (req, res) => {
 });
 
 
+//------- add code to validate customer by age
+app.get("/api/eligible_customers/:age", (req, res) => {
+    const eligibleCustomers = customers.filter((c) => c.age > parseInt(req.params.age))
+
+    res.send(eligibleCustomers);
+});
+
+
 
 const port = process.env.PORT || 3000;
 
