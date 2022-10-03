@@ -108,6 +108,28 @@ function validateCustomer(customer) {
     return validation;
 }
 
+// ---------------------- update method
+app.put("/api/update_customer", (req, res) => {
+    const customer = customers.find((c) => c.id == parseInt(req.body.id))
+
+    if (!customer) {
+        res.status(404).send('<h2>Customer not found.</h2>')
+        return
+    }
+
+    if(req.body.name){
+        customer.name = req.body.name;
+    }
+    if (req.body.age) {
+        customer.age = req.body.age;
+    }
+    if (req.body.phone) {
+        customer.phone = req.body.phone;
+    }
+
+    res.status(200).send(customer)
+
+});
 
 const port = process.env.PORT || 3000;
 
